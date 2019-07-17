@@ -27,5 +27,21 @@
       <artifactId>weka-dev</artifactId>
       <version>3.9.1</version>
     </dependency>
+    <!-- https://mvnrepository.com/tags/spring-->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>4.3.7.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>4.3.7.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>4.3.7.RELEASE</version>
+    </dependency>
   </dependencies>
 </project>
