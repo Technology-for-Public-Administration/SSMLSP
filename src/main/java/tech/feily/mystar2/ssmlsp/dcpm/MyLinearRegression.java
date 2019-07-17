@@ -1,4 +1,4 @@
-package tech.feily.Mystar2.MyStar2.dcpm;
+package tech.feily.mystar2.ssmlsp.dcpm;
 
 import java.util.Random;
 
@@ -17,7 +17,7 @@ public class MyLinearRegression {
         }
         return null;
     }
-    
+
     public static Evaluation getEvaluation(Instances instances, LinearRegression model) throws Exception {
         if (instances != null && model != null) {
             Evaluation eval = new Evaluation(instances);
@@ -26,5 +26,5 @@ public class MyLinearRegression {
         }
         return null;
     }
-    
+
 }

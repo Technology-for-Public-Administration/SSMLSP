@@ -1,4 +1,4 @@
-package tech.feily.Mystar2.MyStar2.main;
+package tech.feily.mystar2.ssmlsp.main;
 
 import java.io.File;
 import java.util.regex.Pattern;
@@ -6,10 +6,10 @@ import java.util.regex.Pattern;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import tech.feily.Mystar2.MyStar2.filters.MyRemove;
-import tech.feily.Mystar2.MyStar2.filters.MyStandardize;
-import tech.feily.Mystar2.MyStar2.io.MyDataSource;
-import tech.feily.Mystar2.MyStar2.io.MyDataSourceImpl;
+import tech.feily.mystar2.ssmlsp.filters.MyRemove;
+import tech.feily.mystar2.ssmlsp.filters.MyStandardize;
+import tech.feily.mystar2.ssmlsp.io.MyDataSource;
+import tech.feily.mystar2.ssmlsp.io.MyDataSourceImpl;
 import weka.classifiers.evaluation.Evaluation;
 import weka.classifiers.functions.LinearRegression;
 import weka.core.Instances;
@@ -51,44 +51,51 @@ public class MyLinearRegression {
             instancesAfterRemove = instances;
         }
         // Data standardization is under way.
-        if (instancesAfterRemove !=  null) {
+        if (instancesAfterRemove != null) {
             instancesAfterStandardize = MyStandardize.standardize(instancesAfterRemove);
         } else {
             instancesAfterStandardize = instancesAfterRemove;
         }
-        //Establishment of Linear Regression Model.
+        // Establishment of Linear Regression Model.
         if (instancesAfterStandardize != null && isLegalClassIndex(instancesAfterStandardize, classIndex)) {
-            model = tech.feily.Mystar2.MyStar2.dcpm.MyLinearRegression.buildModel(instancesAfterStandardize, classIndex);
+            model = tech.feily.mystar2.ssmlsp.dcpm.MyLinearRegression.buildModel(instancesAfterStandardize,
+                    classIndex);
         } else {
             System.out.println("Error : target index crossing boundaries or other reasons.");
             return;
         }
-        //Evaluating Linear Regression Model.
+        // Evaluating Linear Regression Model.
         if (model != null) {
-            eval = tech.feily.Mystar2.MyStar2.dcpm.MyLinearRegression.getEvaluation(instancesAfterStandardize, model);
+            eval = tech.feily.mystar2.ssmlsp.dcpm.MyLinearRegression.getEvaluation(instancesAfterStandardize, model);
         }
         System.out.println("The established linear regression model is as follows.\n\t" + model);
         System.out.println("The evaluation of linear regression model is as follows.\n\t" + eval.toSummaryString());
     }
-    
+
     public static boolean isLegalRemove(Instances instances, String[] remove) {
         for (String rm : remove) {
-            if (Pattern.compile("[0-9]*").matcher(rm).matches());
-            else return false;
+            if (Pattern.compile("[0-9]*").matcher(rm).matches())
+                ;
+            else
+                return false;
         }
         for (int i = 0; i < remove.length; i++) {
             if (Integer.parseInt(remove[i]) >= 0 && Integer.parseInt(remove[i]) < instances.numAttributes()) {
-                if (i == remove.length - 1) return true;
-            } else return false;
+                if (i == remove.length - 1)
+                    return true;
+            } else
+                return false;
         }
         return false;
     }
 
-    
     public static boolean isLegalClassIndex(Instances instances, String classIndex) {
-        if (Pattern.compile("[0-9]*").matcher(classIndex).matches());
-        else return false;
-        if (Integer.parseInt(classIndex) >= 0 && Integer.parseInt(classIndex) < instances.numAttributes()) return true;
+        if (Pattern.compile("[0-9]*").matcher(classIndex).matches())
+            ;
+        else
+            return false;
+        if (Integer.parseInt(classIndex) >= 0 && Integer.parseInt(classIndex) < instances.numAttributes())
+            return true;
         return false;
     }
 }

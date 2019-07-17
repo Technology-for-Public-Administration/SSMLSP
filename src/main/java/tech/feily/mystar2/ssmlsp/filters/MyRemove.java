@@ -1,4 +1,4 @@
-package tech.feily.Mystar2.MyStar2.filters;
+package tech.feily.mystar2.ssmlsp.filters;
 
 import weka.core.Instances;
 import weka.filters.Filter;
@@ -14,6 +14,6 @@ public class MyRemove {
             return Filter.useFilter(instances, remove);
         }
         return instances;
-        
+
     }
 }

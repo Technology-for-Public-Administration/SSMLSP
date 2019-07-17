@@ -1,4 +1,4 @@
-package tech.feily.Mystar2.MyStar2.filters;
+package tech.feily.mystar2.ssmlsp.filters;
 
 import weka.core.Instances;
 import weka.filters.Filter;
@@ -14,7 +14,7 @@ public class MyStandardize {
         }
         return null;
     }
-    
+
     public static Instances[] standardize(Instances train, Instances test) throws Exception {
         if (train != null && test != null) {
             Standardize filter = new Standardize();
@@ -26,5 +26,5 @@ public class MyStandardize {
         }
         return null;
     }
-    
+
 }

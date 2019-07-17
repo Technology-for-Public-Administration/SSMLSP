@@ -1,4 +1,4 @@
-package tech.feily.Mystar2.MyStar2.io;
+package tech.feily.mystar2.ssmlsp.io;
 
 import java.io.File;
 import java.io.IOException;
