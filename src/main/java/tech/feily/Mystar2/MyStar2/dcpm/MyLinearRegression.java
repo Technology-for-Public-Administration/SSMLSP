@@ -8,9 +8,9 @@ import weka.core.Instances;
 
 public class MyLinearRegression {
 
-    public static LinearRegression buildModel(Instances instances, int classIndex) throws Exception {
-        if (instances != null && (classIndex < instances.size() && classIndex >= 0)) {
-            instances.setClassIndex(classIndex);
+    public static LinearRegression buildModel(Instances instances, String classIndex) throws Exception {
+        if (instances != null) {
+            instances.setClassIndex(Integer.parseInt(classIndex));
             LinearRegression model = new LinearRegression();
             model.buildClassifier(instances);
             return model;
