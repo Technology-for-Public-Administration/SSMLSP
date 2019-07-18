@@ -3,9 +3,6 @@ package tech.feily.mystar2.ssmlsp.main;
 import java.io.File;
 import java.util.regex.Pattern;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import tech.feily.mystar2.ssmlsp.filters.MyRemove;
 import tech.feily.mystar2.ssmlsp.filters.MyStandardize;
 import tech.feily.mystar2.ssmlsp.io.MyDataSource;
@@ -16,10 +13,8 @@ import weka.core.Instances;
 
 public class MyLinearRegression {
 
-    @SuppressWarnings("resource")
     public MyLinearRegression(String path, String[] remove, String classIndex) throws Exception {
-        ApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
-        MyDataSource dataSource = context.getBean("myDataSourceImpl", MyDataSourceImpl.class);
+        MyDataSource dataSource = new MyDataSourceImpl();
         Instances instances = null;
         Instances instancesAfterRemove = null;
         Instances instancesAfterStandardize = null;
@@ -27,15 +22,15 @@ public class MyLinearRegression {
         Evaluation eval = null;
         // Reading data.
         if (dataSource != null) {
-            if (new File(path).exists()) {
+            if (new File(path).exists() && new File(path).isFile()) {
                 instances = dataSource.readFromLocalFileWithDataSource(path);
             } else {
-                System.out.println("Error : Data file does not exist.");
+                System.err.print("Error : Data file does not exist.\n");
                 return;
             }
         }
         // Eliminating invalid data.
-        if (instances != null) {
+        if (instances != null && remove != null) {
             if (isLegalRemove(instances, remove)) {
                 String[] rm = new String[remove.length + 1];
                 rm[0] = "-R";
@@ -44,7 +39,7 @@ public class MyLinearRegression {
                 }
                 instancesAfterRemove = MyRemove.remove(instances, rm);
             } else {
-                System.out.println("Error : Eliminate column index errors.");
+                System.err.print("Error : Eliminate column index errors.\n");
                 return;
             }
         } else {
@@ -52,7 +47,11 @@ public class MyLinearRegression {
         }
         // Data standardization is under way.
         if (instancesAfterRemove != null) {
-            instancesAfterStandardize = MyStandardize.standardize(instancesAfterRemove);
+            if (isAllNumerical(instancesAfterRemove)) {
+                instancesAfterStandardize = MyStandardize.standardize(instancesAfterRemove);
+            } else {
+                System.err.print("Error : All data set attributes must be numeric.\n");
+            }
         } else {
             instancesAfterStandardize = instancesAfterRemove;
         }
@@ -61,7 +60,7 @@ public class MyLinearRegression {
             model = tech.feily.mystar2.ssmlsp.dcpm.MyLinearRegression.buildModel(instancesAfterStandardize,
                     classIndex);
         } else {
-            System.out.println("Error : target index crossing boundaries or other reasons.");
+            System.err.print("Error : target index crossing boundaries or other reasons.\n");
             return;
         }
         // Evaluating Linear Regression Model.
@@ -74,10 +73,8 @@ public class MyLinearRegression {
 
     public static boolean isLegalRemove(Instances instances, String[] remove) {
         for (String rm : remove) {
-            if (Pattern.compile("[0-9]*").matcher(rm).matches())
-                ;
-            else
-                return false;
+            if (Pattern.compile("[0-9]*").matcher(rm).matches());
+            else return false;
         }
         for (int i = 0; i < remove.length; i++) {
             if (Integer.parseInt(remove[i]) >= 0 && Integer.parseInt(remove[i]) < instances.numAttributes()) {
@@ -97,5 +94,12 @@ public class MyLinearRegression {
         if (Integer.parseInt(classIndex) >= 0 && Integer.parseInt(classIndex) < instances.numAttributes())
             return true;
         return false;
+    }
+    
+    public static boolean isAllNumerical(Instances instances) {
+       for (int i = 0; i < instances.numAttributes(); i++) {
+           if (!instances.attribute(i).isNumeric()) return false;
+       }
+       return true;
     }
 }
