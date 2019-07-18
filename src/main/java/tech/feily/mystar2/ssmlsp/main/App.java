@@ -53,7 +53,7 @@ public class App {
                 String dt = "3. Decision Tree Model Commands and Parameters.\n" + "    dt -r ... -t ... -p ...";
                 String dtDetails = "\n        -r Columns to be excluded, Non negative.\n        -t Target class, Non negative.\n        -p File path.";
                 String dtExample = "\n    eg. dt -r 1,2,3 -t 10 -p C:\\Users\\Administrator\\Desktop\\doc\\data.csv\n";
-                System.out.println(dt + dtDetails + dtExample + "\nNot finished, to be continued.");
+                System.out.println(dt + dtDetails + dtExample + "\nFor more details, please visit : https://mystar2.feily.tech/.");
                 break;
             case "exit":
                 isExit = true;
