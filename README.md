@@ -1,5 +1,9 @@
-# MyStar2
+# MyStar2 SSMLSP
 The social science machine learning software package includes commonly used prediction and classification algorithms and policy text mining algorithms.
+
+# Getting Started
+
+Visit [here(no-china)](https://github.com/MyStar2/SSMLSP/releases) or [here(china)]() and download the compressed package.
 
 # 1. What's MyStar2 SSMLSP, Why is MyStar2 SSMLSP?
 
